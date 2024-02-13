@@ -62,12 +62,13 @@ class StatusController extends Controller
         //
         $request->validate([
             'status_name' => 'string|required',
+            'status_color' => 'string|required',
         ]);
 
         $status_to_update = Status::findOrFail($id);
 
         if($status_to_update){
-            $status_to_update->update(['name' => $request->input('status_name')]);
+            $status_to_update->update(['name' => $request->input('status_name'), 'color' => $request->input('status_color')]);
 
             return redirect()->route('status.index')->with('success', 'Emri i statusit u ndrrua me sukses');
         }

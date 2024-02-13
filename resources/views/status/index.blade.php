@@ -36,6 +36,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Emri</th>
+                                <th>Ngjyra</th>
                                 <th>Manage</th>
                             </tr>
                         </thead>
@@ -44,6 +45,7 @@
                                 <tr>
                                     <td>{{$status->id}}</td>
                                     <td>{{$status->name}}</td>
+                                    <td>{{$status->color}}</td>
                                     <td class="d-flex">
                                         <a href="{{route('status.edit', ['status' => $status->id])}}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square"></i></a>
                                     </td>

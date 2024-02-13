@@ -15,6 +15,10 @@
                         <label for="exampleFormControlInput1" class="form-label">Emri statusit</label>
                         <input type="text" class="form-control" name="status_name" value="{{$status->name}}" id="exampleFormControlInput1" placeholder="statusi">
                     </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput" class="form-label">Ngjyra e statusit</label>
+                        <input type="text" class="form-control" name="status_color" value="{{$status->color}}" id="exampleFormControlInput" placeholder="ngjyra">
+                    </div>
                     <button class="btn btn-outline-primary">Ruaj ndryshimin <i class="bi bi-floppy"></i></button>
                 </form>
             </div>

@@ -17,9 +17,10 @@ class JobController extends Controller
      */
     public function index()
     {
-        $jobs = Jobs::with('client', 'worker', 'status', 'message')->latest()->paginate(10);
-     
-        return view('jobs.index', ['jobs' => $jobs]);
+        $jobsQuery = Jobs::with('client', 'worker', 'status', 'message');
+        $workers = Workers::all();
+
+        return view('jobs.index', ['jobs' => $jobsQuery->latest()->paginate(10), 'workers' => $workers]);
     }
 
     public function printJob(string $id){
@@ -129,6 +130,10 @@ class JobController extends Controller
 
     }
 
+    public function filterByStatus(Request $request, string $id){
+
+    }
+    
     /**
      * Remove the specified resource from storage.
      */
