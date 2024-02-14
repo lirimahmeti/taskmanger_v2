@@ -50,7 +50,7 @@ class MessageController extends Controller
        
         }
         
-        return redirect()->back()->with('success', 'Mesazhi u shtua me sukses.');
+        return redirect()->back()->with('message_added', 'Mesazhi u shtua me sukses.');
     }
 
     /**

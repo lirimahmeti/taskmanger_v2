@@ -19,7 +19,6 @@ class JobsTable extends Component
     public $status = '';
     public $from = '';
     public $to = '';
-
     
 
     public function search(){
@@ -32,13 +31,46 @@ class JobsTable extends Component
         $jobsQuery = Jobs::with('client', 'worker', 'status', 'message');
 
         if($this->clientQuery != ''){
-            $jobs = $jobsQuery->whereRelation('client', 'name', 'like', '%'.$this->clientQuery.'%')->latest()->paginate(10);
+            $jobs = $jobsQuery->whereRelation('client', 'name', 'like', '%'.$this->clientQuery.'%');
         }
         else if($this->worker != ''){
-            $jobs = $jobsQuery->where('worker_id', $this->worker)->latest()->paginate(10);
+            $jobs = $jobsQuery->where('worker_id', $this->worker);
+            if($this->status != ''){
+                $jobs = $jobsQuery->where('status_id', $this->status);
+                if($this->from != '' and $this->to != ''){
+                    $fromFormated = new DateTimeImmutable($this->from);
+                    $fromFormated->format('YYYY-MM-DD hh:mm:ss');
+        
+                    $toFormated = new DateTimeImmutable($this->to);
+                    $toFormated->format('YYYY-MM-DD hh:mm:ss');
+        
+            
+                    $jobs = $jobsQuery->whereBetween('created_at', [$fromFormated, $toFormated]);
+                }
+            }
+            if($this->from != '' and $this->to != ''){
+                $fromFormated = new DateTimeImmutable($this->from);
+                $fromFormated->format('YYYY-MM-DD hh:mm:ss');
+    
+                $toFormated = new DateTimeImmutable($this->to);
+                $toFormated->format('YYYY-MM-DD hh:mm:ss');
+    
+        
+                $jobs = $jobsQuery->whereBetween('created_at', [$fromFormated, $toFormated]);
+            }
         }
         else if($this->status != ''){
-            $jobs = $jobsQuery->where('status_id', $this->status)->latest()->paginate(10);
+            $jobs = $jobsQuery->where('status_id', $this->status);
+            if($this->from != '' and $this->to != ''){
+                $fromFormated = new DateTimeImmutable($this->from);
+                $fromFormated->format('YYYY-MM-DD hh:mm:ss');
+    
+                $toFormated = new DateTimeImmutable($this->to);
+                $toFormated->format('YYYY-MM-DD hh:mm:ss');
+    
+        
+                $jobs = $jobsQuery->whereBetween('created_at', [$fromFormated, $toFormated]);
+            }
         }
         else if($this->from != '' and $this->to != ''){
             $fromFormated = new DateTimeImmutable($this->from);
@@ -48,15 +80,15 @@ class JobsTable extends Component
             $toFormated->format('YYYY-MM-DD hh:mm:ss');
 
     
-            $jobs = $jobsQuery->whereBetween('created_at', [$fromFormated, $toFormated])->latest()->paginate(10);
+            $jobs = $jobsQuery->whereBetween('created_at', [$fromFormated, $toFormated]);
         }
         else{
-            $jobs = $jobsQuery->latest()->paginate(10);
+            $jobs = $jobsQuery;
         }
 
         return view('livewire.jobs-table', [
         'workers' => Workers::all(),
-        'jobs' => $jobs,
+        'jobs' => $jobs->latest()->paginate(10),
         'statuses' => Status::all(),
     ]);
     }

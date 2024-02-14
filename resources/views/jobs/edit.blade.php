@@ -4,7 +4,47 @@
             {{ __('Punët') }}
         </h2>
     </x-slot>
-
+    @if(session('status_updated'))
+        <div class="position-fixed top-0 start-50 translate-middle-x">
+            <div class="alert alert-success alert-dismissible fade show mt-3 overflow-hidden shadow-xl sm:rounded-lg"  role="alert">
+                {{session('status_updated')}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+            </div>
+        </div>
+    @endif
+    @if(session('imei_updated'))
+        <div class="position-fixed top-0 start-50 translate-middle-x">
+            <div class="alert alert-success alert-dismissible fade show mt-3 overflow-hidden shadow-xl sm:rounded-lg"  role="alert">
+                {{session('imei_updated')}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+            </div>
+        </div>
+    @endif
+    @if(session('kodi_updated'))
+        <div class="position-fixed top-0 start-50 translate-middle-x">
+            <div class="alert alert-success alert-dismissible fade show mt-3 overflow-hidden shadow-xl sm:rounded-lg"  role="alert">
+                {{session('kodi_updated')}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+            </div>
+        </div>
+    @endif
+    @if(session('message_added'))
+        <div class="position-fixed top-0 start-50 translate-middle-x">
+            <div class="alert alert-success alert-dismissible fade show mt-3 overflow-hidden shadow-xl sm:rounded-lg"  role="alert">
+                {{session('message_added')}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+            </div>
+        </div>
+    @endif
+    
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"> 
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
@@ -44,8 +84,8 @@
                                         @if($job->imei)
                                             <li class="list-group-item"><span class="badge bg-secondary">IMEI:</span> {{ $job->imei }} 
                                             <!-- Button trigger modal per edit-->
-                                            <button type="button" class="btn btn-sm text-success" data-bs-toggle="modal" data-bs-target="#kodiModal">
-                                                    <i class="bi bi-plus-square"></i>
+                                            <button type="button" class="btn btn-sm text-primary" data-bs-toggle="modal" data-bs-target="#imeiModal">
+                                                <i class="bi bi-pencil-square"></i>
                                             </button>
                                         </li>
                                         @else
@@ -125,7 +165,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Shto IMEI numrin</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Shto / edito IMEI numrin</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -138,9 +178,9 @@
                                     </div>
                             </div>
                             <div class="modal-footer">
-                                    <button type="submit" class="btn btn-outline-primary">Save changes</button>
+                                    <button type="submit" class="btn btn-outline-primary">Ruaj</button>
                                 </form>
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Mbyll</button>
                             </div>
                         </div>
                     </div>
@@ -151,7 +191,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Shto kodin e telefonit</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Shto / edito kodin e telefonit</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -164,9 +204,9 @@
                                     </div>
                             </div>
                             <div class="modal-footer">
-                                    <button type="submit" class="btn btn-outline-primary">Save changes</button>
+                                    <button type="submit" class="btn btn-outline-primary">Ruaj</button>
                                 </form>
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Mbyll</button>
                             </div>
                         </div>
                     </div>
