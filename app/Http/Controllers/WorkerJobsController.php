@@ -40,15 +40,13 @@ class WorkerJobsController extends Controller
     public function showJobs(string $id, string $status)
     {
         //
+       
         $worker = Workers::findOrFail($id);   
         if($status == 'active'){
-            $newJobs = Jobs::where('worker_id', $worker->id)->where('status_id', 1)->get();
-            $procesJobs = Jobs::where('worker_id', $worker->id)->where('status_id', 2)->get();
+            $activeJobs = Jobs::where('worker_id', $worker->id)->whereRelation('status', 'active', '=', 1)->get();
         }
 
-             
-
-        return view('workers.jobs', ['worker' => $worker, 'jobs_new' => $newJobs, 'jobs_ne_proces' => $procesJobs]);
+        return view('workers.jobs', ['worker' => $worker, 'active_jobs' => $activeJobs]);
         
     }
 

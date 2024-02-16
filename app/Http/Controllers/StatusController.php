@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Status;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
 
 class StatusController extends Controller
 {
@@ -68,9 +69,24 @@ class StatusController extends Controller
         $status_to_update = Status::findOrFail($id);
 
         if($status_to_update){
-            $status_to_update->update(['name' => $request->input('status_name'), 'color' => $request->input('status_color')]);
 
-            return redirect()->route('status.index')->with('success', 'Emri i statusit u ndrrua me sukses');
+            // nese useri e ka bo check checkboxin per me deklaru statusin si entitet aktiv (perdoret per filtrimin e punve aktive)
+            if($request->has('active')){
+                try{
+                    $status_to_update->update(['name' => $request->input('status_name'), 'color' => $request->input('status_color'),'active' => 1]);
+                }catch(QueryException $e){
+                    return redirect()->back()->with('error', 'Dicka shkoi gabim, statusi nuk u perzgjedh si entitet aktiv'.$e);
+                }
+                return redirect()->route('status.index')->with('success', 'Statusi u perditsua me sukes dhe u zgjodh si entitet aktiv.');
+            }
+            
+            try{
+                $status_to_update->update(['name' => $request->input('status_name'), 'color' => $request->input('status_color'), 'active' => 0]);
+            }catch(QueryException $e){
+                return redirect()->back()->with('error', 'Dicka shkoi gabim, statusi nuk u perditsua'.$e);
+            }
+        
+            return redirect()->route('status.index')->with('success', 'Statusi u perditsua me sukses.');
         }
         
 

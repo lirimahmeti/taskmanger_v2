@@ -29,14 +29,18 @@ class JobsTable extends Component
     public function render()
     {   
         $jobsQuery = Jobs::with('client', 'worker', 'status', 'message');
-
+        
+        //searchi klientit
         if($this->clientQuery != ''){
             $jobs = $jobsQuery->whereRelation('client', 'name', 'like', '%'.$this->clientQuery.'%');
         }
+        //filtrimi me puntor
         else if($this->worker != ''){
             $jobs = $jobsQuery->where('worker_id', $this->worker);
+            //filtrimi me puntor dhe status
             if($this->status != ''){
                 $jobs = $jobsQuery->where('status_id', $this->status);
+                //filtrimi me puntor, status dhe dat
                 if($this->from != '' and $this->to != ''){
                     $fromFormated = new DateTimeImmutable($this->from);
                     $fromFormated->format('YYYY-MM-DD hh:mm:ss');
@@ -48,6 +52,7 @@ class JobsTable extends Component
                     $jobs = $jobsQuery->whereBetween('created_at', [$fromFormated, $toFormated]);
                 }
             }
+            //filtrimi me dat
             if($this->from != '' and $this->to != ''){
                 $fromFormated = new DateTimeImmutable($this->from);
                 $fromFormated->format('YYYY-MM-DD hh:mm:ss');
@@ -59,8 +64,10 @@ class JobsTable extends Component
                 $jobs = $jobsQuery->whereBetween('created_at', [$fromFormated, $toFormated]);
             }
         }
+        //filtrimi me status
         else if($this->status != ''){
             $jobs = $jobsQuery->where('status_id', $this->status);
+            //filtrimi me status dhe dat
             if($this->from != '' and $this->to != ''){
                 $fromFormated = new DateTimeImmutable($this->from);
                 $fromFormated->format('YYYY-MM-DD hh:mm:ss');
@@ -72,6 +79,7 @@ class JobsTable extends Component
                 $jobs = $jobsQuery->whereBetween('created_at', [$fromFormated, $toFormated]);
             }
         }
+        //filtrimi vetem me date
         else if($this->from != '' and $this->to != ''){
             $fromFormated = new DateTimeImmutable($this->from);
             $fromFormated->format('YYYY-MM-DD hh:mm:ss');
@@ -82,6 +90,7 @@ class JobsTable extends Component
     
             $jobs = $jobsQuery->whereBetween('created_at', [$fromFormated, $toFormated]);
         }
+        //pa filtra
         else{
             $jobs = $jobsQuery;
         }

@@ -17,7 +17,7 @@ class StatusSeed extends Seeder
         $status = ['new', 'në proces', 'gati', 'përfunduar', 'nuk rregullohet'];
 
         foreach($status as $st){
-            Status::create(['name' => $st]);
+            Status::create(['name' => $st, ['active' => 0]]);
         }
     }
 }

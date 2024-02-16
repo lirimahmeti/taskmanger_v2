@@ -115,24 +115,24 @@
                                 {{ __('Manage Account') }}
                             </div>
 
-                            <x-dropdown-link href="{{ route('profile.show') }}">
+                            <x-dropdown-link href="{{ route('profile.show') }}" class="link-offset-2 link-underline link-underline-opacity-0">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
 
                             @if(Auth::user()->hasRole('admin'))
-                                <x-dropdown-link href="{{ route('status.index') }}">
+                                <x-dropdown-link href="{{ route('status.index') }}" class="link-offset-2 link-underline link-underline-opacity-0">
                                     {{ __('Status settings') }}
                                 </x-dropdown-link>
                             @endif
 
                             @if(Auth::user()->hasRole('admin') or Auth::user()->hasRole('staff'))
-                                <x-dropdown-link href="{{ route('label-settings.index') }}">
+                                <x-dropdown-link href="{{ route('label-settings.index') }}" class="link-offset-2 link-underline link-underline-opacity-0">
                                     {{ __('Print settings ')}} <i class="bi bi-sliders"></i>
                                 </x-dropdown-link>
                             @endif
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                <x-dropdown-link href="{{ route('api-tokens.index') }}">
+                                <x-dropdown-link href="{{ route('api-tokens.index') }}" class="link-offset-2 link-underline link-underline-opacity-0">
                                     {{ __('API Tokens') }}
                                 </x-dropdown-link>
                             @endif
@@ -143,7 +143,7 @@
                             <form method="POST" action="{{ route('logout') }}" x-data>
                                 @csrf
 
-                                <x-dropdown-link href="{{ route('logout') }}"
+                                <x-dropdown-link href="{{ route('logout') }}" class="link-offset-2 link-underline link-underline-opacity-0"
                                          @click.prevent="$root.submit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
@@ -168,9 +168,26 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+            @if(Auth::user()->hasRole('staff'))
+                <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" class="link-offset-2 link-underline link-underline-opacity-0">
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('clients.index') }}" :active="request()->routeIs('clients.index')" class="link-offset-2 link-underline link-underline-opacity-0">
+                        {{ __('Klientat') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('jobs.index') }}" :active="request()->routeIs('jobs.index')" class="link-offset-2 link-underline link-underline-opacity-0">
+                        {{ __('Punët') }}
+                </x-responsive-nav-link>
+            @endif
+            @if(Auth::user()->hasRole('admin')  )
+                <x-responsive-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')" class="link-offset-2 link-underline link-underline-opacity-0">
+                    {{ __('Përdoruesit') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('workers.index') }}" :active="request()->routeIs('workers.index')" class="link-offset-2 link-underline link-underline-opacity-0">
+                    {{ __('Puntorët') }}
+                </x-responsive-nav-link>
+            @else
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
@@ -190,7 +207,7 @@
 
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
-                <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
+                <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')" class="link-offset-2 link-underline link-underline-opacity-0"> 
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 

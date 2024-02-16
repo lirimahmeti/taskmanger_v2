@@ -11,9 +11,7 @@
             <div class="position-fixed top-0 start-50 translate-middle-x">
                 <div class="alert alert-success alert-dismissible fade show mt-3 overflow-hidden shadow-xl sm:rounded-lg"  role="alert">
                     {{session('success')}}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        <i class="bi bi-x-circle"></i>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>
             @endif
@@ -21,9 +19,7 @@
             <div class="position-fixed top-0 start-50 translate-middle-x">
                 <div class="alert alert-success alert-dismissible fade show mt-3" style="width: 80vw;" role="alert" >
                     {{session('updated')}}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        <i class="bi bi-x-circle"></i>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>
             @endif
@@ -37,6 +33,7 @@
                                 <th>#</th>
                                 <th>Emri</th>
                                 <th>Ngjyra</th>
+                                <th>Entitet aktiv</th>
                                 <th>Manage</th>
                             </tr>
                         </thead>
@@ -45,7 +42,12 @@
                                 <tr>
                                     <td>{{$status->id}}</td>
                                     <td>{{$status->name}}</td>
-                                    <td>{{$status->color}}</td>
+                                    <td><span class="bg-{{$status->color}} p-1 rounded text-light">{{$status->color}}</span></td>
+                                    @if($status->active != 1)
+                                        <td>Jo</td>
+                                    @else
+                                        <td>Aktiv</td>
+                                    @endif
                                     <td class="d-flex">
                                         <a href="{{route('status.edit', ['status' => $status->id])}}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square"></i></a>
                                     </td>

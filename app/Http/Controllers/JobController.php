@@ -8,6 +8,7 @@ use App\Models\Workers;
 use Illuminate\Http\Request;
 use App\Models\LabelPrintSettings;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
 
 
 class JobController extends Controller
@@ -116,15 +117,43 @@ class JobController extends Controller
         $job = Jobs::findOrFail($id);
 
         if($status_id){
-            $job->update(['status_id' => $status_id]);
+            try{
+                $job->update(['status_id' => $status_id]);
+            }catch(QueryException $e){
+                $errorCode = $e->getPrevious()->errorInfo[0];
+                $sqlState = $e->getPrevious()->errorInfo[1];
+                $errorMessage = $e->getPrevious()->errorInfo[2];
+        
+                // Handle database-related errors
+                return redirect()->back()->with('error', 'Statusi nuk u ndrrua. sql error code: '. $errorCode);
+            }
             return redirect()->back()->with(['status_updated' => 'Statusi punës u përditsua me sukses']);
         }
         if($imei){
-            $job->update(['imei' => $imei]);
+            try{
+                $job->update(['imei' => $imei]);
+            }catch(QueryException $e){
+                $errorCode = $e->getPrevious()->errorInfo[0];
+                $sqlState = $e->getPrevious()->errorInfo[1];
+                $errorMessage = $e->getPrevious()->errorInfo[2];
+        
+                // Handle database-related errors
+                return redirect()->back()->with('error', 'IMEI nuk u ndrrua. sql error code: '. $errorCode);
+            }
+            
             return redirect()->back()->with(['imei_updated' => 'IMEI u shtua me sukses']);
         }
         if($kodi){
-            $job->update(['kodi' => $kodi]);
+            try{
+                $job->update(['kodi' => $kodi]);
+            }catch(QueryException $e){
+                $errorCode = $e->getPrevious()->errorInfo[0];
+                $sqlState = $e->getPrevious()->errorInfo[1];
+                $errorMessage = $e->getPrevious()->errorInfo[2];
+        
+                // Handle database-related errors
+                return redirect()->back()->with('error', 'Kodi nuk u ndrrua. sql error code: '. $errorCode);
+            }
             return redirect()->back()->with(['kodi_updated' => 'Kodi u shtua me sukses']);
         }
 
@@ -140,5 +169,20 @@ class JobController extends Controller
     public function destroy(string $id)
     {
         //
+        $job = Jobs::findOrFail($id);
+
+        if($job){
+            try{
+                $job->delete();
+            }catch (QueryException $e){
+                $errorCode = $e->getPrevious()->errorInfo[0];
+                $sqlState = $e->getPrevious()->errorInfo[1];
+                $errorMessage = $e->getPrevious()->errorInfo[2];
+        
+                // Handle database-related errors
+                return redirect()->back()->with('error', 'Puna nuk u fshi. sql error code: '. $errorCode);
+            }
+            return redirect()->back()->with(['job_deleted' => 'Puna u fshi me sukses!']);
+        }
     }
 }

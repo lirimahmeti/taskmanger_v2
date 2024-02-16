@@ -44,6 +44,24 @@
             </div>
         </div>
     @endif
+    @if(session('number_exists'))
+        <div class="position-fixed top-0 start-50 translate-middle-x">
+            <div class="alert alert-success alert-dismissible fade show mt-3 overflow-hidden shadow-xl sm:rounded-lg"  role="alert">
+                {!!session('number_exists')!!}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        </div>
+    @endif
+    @if(session('client_edited'))
+        <div class="position-fixed top-0 start-50 translate-middle-x">
+            <div class="alert alert-success alert-dismissible fade show mt-3 overflow-hidden shadow-xl sm:rounded-lg"  role="alert">
+                {{session('client_edited')}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        </div>
+    @endif
     
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"> 
@@ -77,7 +95,17 @@
                             </div>
                             <!-- Informacionet rreth punes -->
                             <ul class="list-group list-group-flush">
-                                    <li class="list-group-item text-primary d-flex align-items-center justify-content-between">Kontakti: {{ $job->client->phone }}<a href="tel:{{ $job->client->phone }}" class="btn btn-sm btn-success"><i class="bi bi-telephone-inbound"></i></a> </li>
+                                    <li class="list-group-item text-primary d-flex align-items-center justify-content-between">
+                                        @if($job->client->phone)
+                                            Kontakti: {{ $job->client->phone }}
+                                            <a href="tel:{{ $job->client->phone }}" class="btn btn-sm btn-success"><i class="bi bi-telephone-inbound"></i></a>
+                                        @else
+                                            Kontakti:  Nuk ka!
+                                            <button type="button" class="btn btn-sm text-success" data-bs-toggle="modal" data-bs-target="#numriModal">
+                                                    <i class="bi bi-plus-square"></i>
+                                            </button>
+                                        @endif
+                                    </li>
                                     <ul class="list-group list-group-horizontal">
                                         <li class="list-group-item"><i class="bi bi-phone">:</i> {{ $job->phone_model }}</li>
                                         <!-- Logjika per shfaqjen / editimin e imeit -->
@@ -159,6 +187,33 @@
 
 
                 <!-- Poshte jan modalet qe shfaqen per shtimin e imeit edhe kodit te telefonit ne databaz -->
+
+                <!-- Modali per me shtu numrin e telefonit-->
+                <div class="modal fade" id="numriModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Shto / edito IMEI numrin</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('clients.update', ['client' => $job->client->id]) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <div>
+                                        <label for="phone">Numri:</label>
+                                        <input class="form-control" type="text" name="phone" id="phone" placeholder="044111222">
+                                        <input class="form-control rounded" hidden type="text" name="name" id="name" value="{{$job->client->name}}">
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                    <button type="submit" class="btn btn-outline-primary">Ruaj</button>
+                                </form>
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Mbyll</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Modali per me shtu imei-->
                 <div class="modal fade" id="imeiModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

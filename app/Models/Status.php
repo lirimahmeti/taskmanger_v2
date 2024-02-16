@@ -13,7 +13,8 @@ class Status extends Model
 
     protected $fillable = [
         'name',
-        'color'
+        'color',
+        'active',
     ];
 
     public function jobs(){

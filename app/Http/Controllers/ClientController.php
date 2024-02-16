@@ -120,11 +120,25 @@ class ClientController extends Controller
 
         $client = Clients::findOrFail($id);
         if($client){
+            $number_exists = Clients::where('phone', $request->input('phone'))->get()->first();
+
+            if($number_exists){
+                return redirect()->back()->with('number_exists', 'Numri nuk mundë të shtohet. <b>'. $number_exists->name . '</b> eshte regjistruar me kete numer.');
+            }
+            try{
             $client->update([
                 'name' => $request->input('name'),
                 'phone' => $request->input('phone'),
             ]);
-            return redirect()->route('clients.index')->with("client_edited", "Klienti u editua me sukses.");
+            }catch(QueryException $e){
+                $errorCode = $e->getPrevious()->errorInfo[0];
+                $sqlState = $e->getPrevious()->errorInfo[1];
+                $errorMessage = $e->getPrevious()->errorInfo[2];
+        
+                // Handle database-related errors
+                return redirect()->back()->with('error', 'Klienti nuk u modifikua. sql error code: '. $errorCode);
+            }
+            return redirect()->back()->with("client_edited", "Klienti u editua me sukses.");
         }
         return redirect()->back()->with("error_edit", "Dicka shkoi gabim, klienti nuk u editua.");
     }
