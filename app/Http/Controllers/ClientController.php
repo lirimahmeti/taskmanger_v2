@@ -57,7 +57,7 @@ class ClientController extends Controller
             //kontrollojm se numri dhene a eshte regjistru ma heret ne databaz
             if($userExists) {
                 //nese eshte regjistru e bejme return userin me at numer perkats
-                return redirect()->back()->with('userExists', 'Klienti me këtë numër egziston')->with('client', $userExists);
+                return redirect()->back()->with('userExists', $userExists->name)->with('client', $userExists);
             }else{ //nese nuk eshte ne databaz e shtojm klientin e ri
                 try{
                     $newRecord = new Clients([

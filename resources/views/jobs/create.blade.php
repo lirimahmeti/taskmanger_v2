@@ -52,53 +52,42 @@
                 </div>
             @endif
             
-                <form method="POST" action="{{ route('clients.store') }}" class="p-4 bg-light rounded">
-                    <h3></h3>
-                    @csrf
-                    @method('POST')
-                    <div class="row g-3">
-                        <div class="col ">
-                            <label for="exampleFormControlInput1" class="form-label">Emri</label>
-                            <input type="text" class="form-control rounded" name="name" required id="exampleFormControlInput1" placeholder="filan fisteku">
-                        </div>
-                        <div class="col mb-3">
-                            <label for="exampleFormControlInput2" class="form-label">Numri tel.</label>
-                            <input type="text" class="form-control rounded" name="phone" id="exampleFormControlInput2" placeholder="044123123">
-                        </div>
-                    </div>
-                    <button class="btn btn-outline-primary">Shto klient <i class="bi bi-person-plus-fill"></i></button>
-                    </form>
-
+                <livewire:job-create-form/>
                     <!-- forma per ruajtjen e punes ne databaze -->
                 <form method="POST" action="{{ route('jobs.store', ['client_id' => session('client')?->id]) }}" class="p-4">
                     @csrf
                     @method('POST')
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Klienti zgjedhur</label>
-                        <input type="text" class="form-control rounded" disabled value="{{session('client')?->name ? session('client')?->name:'Asnjë'}}" id="klienti">
+                        @if(session('client'))
+                            <input type="text" class="form-control is-valid rounded" disabled value="{{session('client')?->name ? session('client')?->name:'Asnjë'}}" id="klienti">
+                        @else
+                            <input type="text" class="form-control is-invalid rounded" disabled value="{{session('client')?->name ? session('client')?->name:'Asnjë'}}" id="klienti">
+                        @endif
                     </div>
                     <div class="row g-3 mb-3">
                         <div class="col">
-                            <label for="exampleFormControlInput2" class="form-label">Modeli telefonit</label>
-                            <input type="text" required class="form-control rounded" name="phone_model" id="exampleFormControlInput2" placeholder="iphone...">
+                            <label for="exampleFormControlInput2" class="form-label">Modeli telefonit <span class="text-danger">*</span></label>
+                            <input type="text" required class="form-control rounded" autocomplete="off" name="phone_model" id="exampleFormControlInput2" placeholder="iphone...">
                         </div>
                         <div class="col">
                             <label for="exampleFormControlInput2" class="form-label">IMEI</label>
-                            <input type="text" class="form-control rounded" name="imei" id="exampleFormControlInput2" placeholder="359451590651017">
+                            <input type="text" class="form-control rounded" autocomplete="off" name="imei" id="exampleFormControlInput2" placeholder="359451590651017">
                         </div>
                         <div class="col">
                             <label for="exampleFormControlInput2" class="form-label">Kodi</label>
-                            <input type="text" class="form-control rounded" name="kodi" id="exampleFormControlInput2" placeholder="123456">
+                            <input type="text" class="form-control rounded" autocomplete="off" name="kodi" id="exampleFormControlInput2" placeholder="123456">
                         </div>
                     </div>
+                    <label for="worker_id">Puntori:<span class="text-danger">*</span></label>
                     <select class="form-select" name="worker_id" aria-label="Default select example">
                         @foreach($workers as $worker)
                             <option value=" {{ $worker->id }} ">{{$worker->name}}</p>
                         @endforeach
                     </select>
                     <div class="mb-3 mt-3">
-                        <label for="exampleFormControlInput2" class="form-label">Përshkrimi</label>
-                        <textarea class="form-control" name="description" id="description" rows="3" placeholder="Shkruaj detaje rreth punes."></textarea>
+                        <label for="exampleFormControlInput2" class="form-label">Përshkrimi: <span class="text-danger">*</span></label>
+                        <textarea class="form-control" name="description" id="description" rows="3" required placeholder="Shkruaj detaje rreth punes."></textarea>
                     </div>
                     <button class="btn btn-outline-primary" type="submit">punen <i class="bi bi-person-plus-fill"></i></button>
                 </form>

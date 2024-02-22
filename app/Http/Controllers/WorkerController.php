@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jobs;
 use App\Models\Workers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -104,6 +105,11 @@ class WorkerController extends Controller
     {
         //
         $worker = Workers::findOrFail($id);
+        $workerHasJobs = Jobs::where('worker_id', $id)->get();
+
+        if($workerHasJobs->count() > 0){
+            Jobs::where('worker_id', $id)->delete();
+        }
         $worker->delete();
 
         return redirect()->back()->with('deleted', 'Worker was deleted successfully.');

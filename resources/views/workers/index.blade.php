@@ -52,7 +52,7 @@
                                     <td>{{$worker->name}}</td>
                                     <td>{{$worker->phone}}</td>
                                     <td class="d-flex">
-                                        <form method="POST" action="{{ route('workers.destroy', ['worker' => $worker->id])}}" class="me-2" onsubmit="return window.confirm('A jeni i sigurtë që doni të fshini userin?')">
+                                        <form method="POST" action="{{ route('workers.destroy', ['worker' => $worker->id])}}" class="me-2" onsubmit="return window.confirm('Ju nese fshini puntorin fshini edhe te gjitha punet qe ka pranuar puntori. A jeni te sigurte?')">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3"></i></button>

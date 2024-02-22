@@ -27,7 +27,7 @@
         font-family: "Poppins", sans-serif;
         font-weight: 400;
         font-style: normal;
-        line-height: 10px;
+        line-height: 11px;
         font-size: 12px;
     }
 
@@ -96,7 +96,26 @@
         </div>
         <div class="body d-flex-between">
             <div style="width: {{ $setting->body_text_area_width }}mm;">
+                <p >#{{ $job->id }}</p>
                 <p ><i class="bi bi-person-fill"></i> : {{ $job->client->name }}</p>
+                <p><i class="bi bi-clock-fill"></i> : {{ explode(' ', $job->created_at)[1] }}</p>
+                <br>
+                <p>Kopja klientit!</p>
+            </div>
+            {!! DNS2D::getBarcodeSVG(route('welcome', ['id' => $job->id]), 'QRCODE', $setting->qrcode_size, $setting->qrcode_size) !!}
+        </div>
+    </div>
+</div>
+<div class="label">
+    <div class="inner" style="width: {{ $setting->paper_width - $setting->content_margin }}mm; height: {{ $setting->paper_height - $setting->content_margin }}mm;">
+        <div class="header d-flex-between ">
+            <p>{{ explode(' ', $job->created_at)[0] }}</p><br>
+            <p>{{ $job->worker->name }}</p>
+        </div>
+        <div class="body d-flex-between">
+            <div style="width: {{ $setting->body_text_area_width }}mm;">
+                <p>#{{ $job->id }}</p>
+                <p><i class="bi bi-person-fill"></i> : {{ $job->client->name }}</p>
                 <p><i class="bi bi-lock-fill"></i> : {{ $job->kodi }}</p>
                 <p style="margin-bottom: {{ $setting->body_text_margin }}px;"><i class="bi bi-telephone-fill"></i> : {{ $job->client->phone }}</p>
                 <p><i class="bi bi-clock-fill"></i> : {{ explode(' ', $job->created_at)[1] }}</p>

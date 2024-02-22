@@ -22,9 +22,7 @@ use App\Http\Controllers\LabelSettingsController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'App\Http\Controllers\jobController@welcomeView')->name('welcome');
 
 Route::middleware([
     'auth:sanctum',

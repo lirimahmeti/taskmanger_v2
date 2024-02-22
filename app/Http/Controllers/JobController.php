@@ -42,6 +42,32 @@ class JobController extends Controller
         return view('jobs.create', ['workers' => $workers]);
     }
 
+    // Show welcome view
+    public function welcomeView(Request $request)
+    {
+        $jobsCount = Jobs::all()->count();
+
+        if($request->input('id')){
+            $id = $request->input('id');
+           
+            try {
+                $job = Jobs::with('client', 'worker', 'status')->findOrFail($id);
+
+                return view('welcome', ['job' => $job, 'jobs_count' => $jobsCount]);
+                // If the job is found, continue processing
+            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+                // Handle the case where the job is not found, for example:
+                 // This will return a 404 Not Found HTTP response
+                return redirect()->back()->with('error', 'Asnjë punë nuk u gjet me ID-në e dhënë');
+            }
+
+            
+        }
+
+        return view('welcome', ['jobs_count' => $jobsCount, 'job' => false]);
+
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -159,9 +185,6 @@ class JobController extends Controller
 
     }
 
-    public function filterByStatus(Request $request, string $id){
-
-    }
     
     /**
      * Remove the specified resource from storage.
