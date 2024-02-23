@@ -150,8 +150,17 @@ class ClientController extends Controller
     {
         //
         $client = Clients::findOrFail($id);
-        $client->delete();
+        $clientUsed = Jobs::where('client_id', '=', $id)->first();
 
-        return redirect()->back()->with("client_deleted", "Klienti u fshi me sukses.");
+        if($clientUsed){
+            return redirect()->back()->with('error', 'Klienti nuk munde te fshihet - Ka pune te regjistruara.');
+        }else{
+            try{
+                $client->delete();
+            }catch(QueryException $e){
+                return redirect()->back()->with("error", "Klienti nuk u fshi - Database error");
+            }
+            return redirect()->back()->with("success", "Klienti u fshi me sukses.");
+        }
     }
 }
