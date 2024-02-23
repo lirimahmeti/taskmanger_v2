@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Jobs;
 use App\Models\Status;
+use App\Models\Message;
 use App\Models\Workers;
 use Illuminate\Http\Request;
 use App\Models\LabelPrintSettings;
@@ -153,7 +154,7 @@ class JobController extends Controller
                 // Handle database-related errors
                 return redirect()->back()->with('error', 'Statusi nuk u ndrrua. sql error code: '. $errorCode);
             }
-            return redirect()->back()->with(['status_updated' => 'Statusi punës u përditsua me sukses']);
+            return redirect()->back()->with(['success' => 'Statusi punës u përditsua me sukses']);
         }
         if($imei){
             try{
@@ -167,7 +168,7 @@ class JobController extends Controller
                 return redirect()->back()->with('error', 'IMEI nuk u ndrrua. sql error code: '. $errorCode);
             }
             
-            return redirect()->back()->with(['imei_updated' => 'IMEI u shtua me sukses']);
+            return redirect()->back()->with(['success' => 'IMEI u shtua me sukses']);
         }
         if($kodi){
             try{
@@ -180,7 +181,7 @@ class JobController extends Controller
                 // Handle database-related errors
                 return redirect()->back()->with('error', 'Kodi nuk u ndrrua. sql error code: '. $errorCode);
             }
-            return redirect()->back()->with(['kodi_updated' => 'Kodi u shtua me sukses']);
+            return redirect()->back()->with(['success' => 'Kodi u shtua me sukses']);
         }
 
     }
@@ -194,7 +195,9 @@ class JobController extends Controller
         //
         $job = Jobs::findOrFail($id);
 
-        if($job){
+        $job_cant_be_deleted = Message::where('job_id', '=', $job->id)->first();
+
+        if(is_null($job_cant_be_deleted)){
             try{
                 $job->delete();
             }catch (QueryException $e){
@@ -205,7 +208,9 @@ class JobController extends Controller
                 // Handle database-related errors
                 return redirect()->back()->with('error', 'Puna nuk u fshi. sql error code: '. $errorCode);
             }
-            return redirect()->back()->with(['job_deleted' => 'Puna u fshi me sukses!']);
+            return redirect()->back()->with(['success' => 'Puna u fshi me sukses!']);
+        }else{
+            return redirect()->back()->with(['error' => 'Puna nuk munde te fshihet sepse ka rekorde']);
         }
     }
 }

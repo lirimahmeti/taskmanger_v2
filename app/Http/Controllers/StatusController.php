@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jobs;
 use App\Models\Status;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -26,6 +27,7 @@ class StatusController extends Controller
     public function create()
     {
         //
+        return view('status.create');
     }
 
     /**
@@ -34,7 +36,31 @@ class StatusController extends Controller
     public function store(Request $request)
     {
         //
+        
+        $request->validate([
+            'name' => 'required|string',
+            'color' => 'required|string'
+        ]);
+
+
+            try{
+                $newRecord = new Status([
+                    'name' => $request->input('name'),
+                    'color' => $request->input('color'),
+                    'active' => $request->input('active')
+                ]);
+
+                $newRecord->save();
+            
+            }catch(QueryException $e){
+                return redirect()->back()->with('error', 'Dicka shkoi gabim, statusi nuk u shtua ne databaze'.$e);
+            }
+            return redirect()->route('status.index')->with('success', 'Statusi u shtua me sukses.');
+     
+        
     }
+    
+    
 
     /**
      * Display the specified resource.
@@ -79,7 +105,6 @@ class StatusController extends Controller
                 }
                 return redirect()->route('status.index')->with('success', 'Statusi u perditsua me sukes dhe u zgjodh si entitet aktiv.');
             }
-            
             try{
                 $status_to_update->update(['name' => $request->input('status_name'), 'color' => $request->input('status_color'), 'active' => 0]);
             }catch(QueryException $e){
@@ -98,5 +123,23 @@ class StatusController extends Controller
     public function destroy(string $id)
     {
         //
+        $recordToDelete = Status::findOrFail($id);
+        $notUsed = Jobs::where('status_id', '=', $id)->first();
+
+        if($recordToDelete){
+            if(is_null($notUsed)){
+                try{
+                    $recordToDelete->delete();
+                }catch(QueryException $e){
+                    return redirect()->back()->with('error', 'Dicka shkoi gabim. Stausi nuk u fshi');
+                }
+                return redirect()->back()->with('success', 'Statusi u fshi me sukses!');
+            }else{
+                return redirect()->back()->with('error', 'Statusi nuk munde te fshihet sepse eshte perdorur ne ndonje pune.');
+            }
+        }else{
+            return redirect()->back()->with('error', 'Nuk u gjet statusi per tu fshire.');
+        }
+        
     }
 }
