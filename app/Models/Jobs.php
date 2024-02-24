@@ -39,4 +39,5 @@ class Jobs extends Model
     public function message(){
         return $this->hasMany(Message::class, 'job_id');
     }
+    
 }

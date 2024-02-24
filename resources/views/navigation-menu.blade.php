@@ -13,21 +13,21 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @if(Auth::user()->hasRole('staff'))
-                        <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" class="link-offset-2 link-underline link-underline-opacity-0">
                             {{ __('Dashboard') }}
                         </x-nav-link>
-                        <x-nav-link href="{{ route('clients.index') }}" :active="request()->routeIs('clients.index')">
+                        <x-nav-link href="{{ route('clients.index') }}" :active="request()->routeIs('clients.index')" class="link-offset-2 link-underline link-underline-opacity-0">
                                 {{ __('Klientat') }}
                         </x-nav-link>
-                        <x-nav-link href="{{ route('jobs.index') }}" :active="request()->routeIs('jobs.index')">
+                        <x-nav-link href="{{ route('jobs.index') }}" :active="request()->routeIs('jobs.index')" class="link-offset-2 link-underline link-underline-opacity-0">
                                 {{ __('Punët') }}
                         </x-nav-link>
                     @endif
                     @if(Auth::user()->hasRole('admin')  )
-                        <x-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')">
+                        <x-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')" class="link-offset-2 link-underline link-underline-opacity-0">
                             {{ __('Përdoruesit') }}
                         </x-nav-link>
-                        <x-nav-link href="{{ route('workers.index') }}" :active="request()->routeIs('workers.index')">
+                        <x-nav-link href="{{ route('workers.index') }}" :active="request()->routeIs('workers.index')" class="link-offset-2 link-underline link-underline-opacity-0">
                             {{ __('Puntorët') }}
                         </x-nav-link>
                     @else
@@ -169,7 +169,7 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             @if(Auth::user()->hasRole('staff'))
-                <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" class="link-offset-2 link-underline link-underline-opacity-0">
+                <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" class=" link-offset-2 link-underline link-underline-opacity-0">
                     {{ __('Dashboard') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link href="{{ route('clients.index') }}" :active="request()->routeIs('clients.index')" class="link-offset-2 link-underline link-underline-opacity-0">

@@ -16,8 +16,8 @@ class Workers extends Model
         'phone',
     ];
 
-    public function job() {
-        return $this->hasMany(Jobs::class);
+    public function jobs() {
+        return $this->hasMany(Jobs::class, 'worker_id');
     }
     
     public function message(){

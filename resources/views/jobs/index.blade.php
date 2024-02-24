@@ -21,10 +21,11 @@
             </div>
         </div>
     @endif
-
+    
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"> 
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
+            <livewire:status-stats/>
             <livewire:jobs-table/>
             <a href="{{ route('workers.create') }}" class="btn btn-primary  me-auto">Shto <i class="bi bi-person-plus"></i></a>
             </div>

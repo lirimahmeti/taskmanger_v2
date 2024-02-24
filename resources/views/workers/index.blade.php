@@ -4,7 +4,6 @@
             {{ __('Puntoret') }}
         </h2>
     </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"> 
             @if(session('success'))
@@ -12,30 +11,56 @@
                 <div class="alert alert-success alert-dismissible fade show mt-3 overflow-hidden shadow-xl sm:rounded-lg"  role="alert">
                     {{session('success')}}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        <i class="bi bi-x-circle"></i>
+                        
                     </button>
                 </div>
             </div>
             @endif
             @if(session('updated'))
             <div class="position-fixed top-0 start-50 translate-middle-x">
-                <div class="alert alert-success alert-dismissible fade show mt-3" style="width: 80vw;" role="alert" >
+                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" >
                     {{session('updated')}}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        <i class="bi bi-x-circle"></i>
+                        
                     </button>
                 </div>
             </div>
             @endif
-         
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
-            
-            @if($workers->count() > 0)
-            <div class="d-flex">  
-                    <div class="border rounded shadow col-xxl-2 col-md-3 col-sm-11 col-xs-11 align-items-center justify-content-center d-flex text-center mb-4" style="height: 100px;">
-                        {{$workers->count()}} <br>Puntorë
-                    </div>
+            @if(session('error'))
+            <div class="position-fixed top-0 start-50 translate-middle-x">
+                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" >
+                    {{session('error')}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        
+                    </button>
+                </div>
             </div>
+            @endif
+
+
+            
+           
+           
+            
+        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
+            <livewire:worker-jobs-chart-today/> 
+            
+            <!-- Statistikat e puntorve vjetore -->
+<div class="container px-0 mx-auto">
+    @if($chart)
+        <div class="p-3 mb-6 w-100 bg-white rounded shadow">
+            {!! $chart->container() !!}
+        </div>
+
+        <script src="{{ $chart->cdn() }}"></script>
+        {{ $chart->script() }}
+    @endif
+</div>
+
+<!-- Statistikat javore te puntorve -->
+
+
+            @if($workers->count() > 0)
                 <table class="table table-striped">
                         <thead>
                             <tr>
@@ -89,5 +114,4 @@
             </div>
         </div>
     </div>
-   
 </x-app-layout>

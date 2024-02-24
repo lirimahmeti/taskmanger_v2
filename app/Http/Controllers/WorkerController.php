@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Jobs;
 use App\Models\Workers;
 use Illuminate\Http\Request;
+use App\Charts\WorkersJobsChart;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
 
@@ -13,10 +14,11 @@ class WorkerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(WorkersJobsChart $chart)
     {
         //
-        return view('workers.index', ['workers' => Workers::all()]);
+
+        return view('workers.index', ['workers' => Workers::all(), 'chart' => $chart->build()]);
 
     }
 
@@ -105,13 +107,18 @@ class WorkerController extends Controller
     {
         //
         $worker = Workers::findOrFail($id);
-        $workerHasJobs = Jobs::where('worker_id', $id)->get();
+        $workerHasJobs = Jobs::where('worker_id', $id)->first();
 
-        if($workerHasJobs->count() > 0){
-            Jobs::where('worker_id', $id)->delete();
+        if($workerHasJobs){
+            return redirect()->back()->with('error', 'Puntori nuk munde te fshihet - Ka pune te regjistruara');
+        }else{
+            try{
+                $worker->delete();
+            }catch(QueryException $e){
+                return redirect()->back()->with('error', 'Dicka shkoi gabim - puntori nuk u fshi (database error)');
+            }
+            return redirect()->back()->with('success', 'Worker was deleted successfully.');
         }
-        $worker->delete();
-
-        return redirect()->back()->with('deleted', 'Worker was deleted successfully.');
+    
     }
 }

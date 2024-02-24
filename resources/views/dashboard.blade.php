@@ -22,7 +22,7 @@
         @endif
     </x-slot>
 
-    
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"> 
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
@@ -31,6 +31,8 @@
                     <livewire:worker-jobs workerName="{{ $worker->name}} " workerID="{{ $worker->id }}" workerPhone="{{ $worker->phone }}"/>      
                 @endforeach  
                 </div>
+            <div class="mt-4">
+            <livewire:status-stats/>
             <div class="mt-4">
             <livewire:jobs-table/>
             </div>
