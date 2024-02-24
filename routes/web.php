@@ -32,7 +32,6 @@ Route::middleware([
 
     
     Route::middleware([CheckUserRole::class . ':admin'])->group(function () {
-
         Route::get('/dashboard/{status?}', 'App\Http\Controllers\DashboardController@index')->name('dashboard');
         Route::resource('users', UserController::class)->only(['index','update','destroy']);
         Route::resource('clients', ClientController::class)->only(['index', 'update', 'store', 'destroy', 'edit', 'create']);
@@ -44,6 +43,7 @@ Route::middleware([
         Route::get('/job/{job_id}/print', 'App\Http\Controllers\JobController@printJob')->name('job.print');
         Route::resource('label-settings', LabelSettingsController::class)->only(['index', 'update', 'store', 'destroy', 'create', 'edit']);
     });
+
     Route::middleware([CheckUserRole::class . ':staff'])->group(function () {
         Route::get('/dashboard/{status?}', 'App\Http\Controllers\DashboardController@index')->name('dashboard');
         Route::resource('clients', ClientController::class)->only(['index', 'update', 'store', 'edit', 'create']);

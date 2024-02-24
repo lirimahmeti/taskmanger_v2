@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Status;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,7 +20,7 @@ class StatusColorSeed extends Seeder
 
         foreach ($statuses as $index => $status) {
             // Update each status with its corresponding color
-            Status::where('id', $status->id)->update(['color' => $statusColors[$index]]);
+            Status::where('id', $status->id)->update(['color' => $statusColor[$index]]);
         }
     }
 }

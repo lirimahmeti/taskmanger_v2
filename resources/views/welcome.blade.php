@@ -72,7 +72,8 @@
                                                 type="text"
                                                 class="form-control"
                                                 name="id"
-                                                placeholder="ID e punës">
+                                                placeholder="ID e punës"
+                                                autocomplete="off">
                                             <button type="submit" class="btn btn-outline-light">Kërko</button>
                                         </div>
                                     </form>

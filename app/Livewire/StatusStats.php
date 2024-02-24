@@ -16,12 +16,11 @@ class StatusStats extends Component
         $statuses = Status::all();
 
         foreach($statuses as $status){
-            $this->data[] = ['statusi' => $status->name, 'color' => $status->color , 'status_count' => Jobs::where('status_id', $status->id)
-            ->whereDate('updated_at', Carbon::today())->orWhereDate('created_at', Carbon::today())
+            $this->data[] = ['statusi' => $status->name, 'color' => $status->color , 'status_count' => Jobs::where('status_id', '=',$status->id)
+            ->whereDate('updated_at', Carbon::today())
             ->count()];
         }
 
-        
     }
 
 

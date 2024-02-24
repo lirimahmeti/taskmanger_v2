@@ -19,13 +19,15 @@ class CheckUserRole
         if (!Auth::check()) {
             return redirect('/login');
         }
+        
 
         foreach ($roles as $role) {
             if (Auth::user()->hasRole($role)) {
+                
                 return $next($request);
             }
         }
 
-        abort(403, 'Unauthorized action.');
+        abort(403, 'Nuk keni autorizim.');
     }
 }

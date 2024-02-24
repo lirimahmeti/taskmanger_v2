@@ -71,22 +71,19 @@
                 </table>
             </div>
             @else
-                <div class="d-flex row">  
-                    <div class="border rounded shadow col-xxl-2 align-items-center justify-content-center d-flex text-center m-4 ms-4" style="height: 100px;">
-                        {{$statuses->count()}} <br>Puntorë
-                    </div>
-                </div>
                 <table class="table table-bordered m-4">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Emri</th>
-                            <th>Numri</th>
+                            <th>Ngjyra</th>
+                            <th>Entitet aktiv</th>
+                            <th>Manage</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="3" align="center">Nuk ka puntor te regjistruar!</td>
+                            <td colspan="5" align="center">Nuk ka asnje status te regjistruar!</td>
                         </tr>
                     </tbody>
                 </table>
